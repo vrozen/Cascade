@@ -1,0 +1,6 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002FUsers_002Frozen_002Fproj_002FDelta_002FDelta_002Flib_002FAntlr4_002ERuntime_002EStandard_002D2_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=_002FUsers_002Frozen_002Fproj_002FDelta_002FDelta_002Flib_002FAntlr4_002ERuntime_002EStandard_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
+  &lt;Assembly Path="/Users/rozen/proj/Delta/Delta/lib/Antlr4.Runtime.Standard.dll" /&gt;
+&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

@@ -1,0 +1,564 @@
+<!doctype html>
+  <html>
+    <head>
+      <link rel="stylesheet" href="xterm.css" />
+      <script src="xterm.js"></script>
+      <script src="jquery-3.6.0.js"></script>
+      <style>
+        #titlebar {          
+          position: absolute;
+          overflow: hidden;
+          visibility: visible;
+          top: 10px;
+          left: 10px;
+          width: 670px;
+          height: 40px;
+          font-size: 14px;
+          line-height: 40px;
+        }
+
+        #REPL {
+          position: absolute;
+          overflow: hidden;
+          visibility: visible;         
+          left: 10px;
+          top: 40px;
+          width: 670px;
+          height: 450px; 
+          background-color: gray;
+        }
+
+        #TinyLiveSML {
+          position: absolute;
+          overflow: hidden;
+          visibility: hidden;         
+          left: 10px;
+          top: 40px;
+          width: 670px;
+          height: 450px; 
+          background-color: steelblue;
+        }        
+
+        #terminal {
+          position: absolute;
+          overflow: hidden;
+          top: 10px;
+          left: 10px;
+          width: 650px;
+          height: 480px;
+          font-size: 14px;
+          line-height: 40px;
+        }
+
+        #programFrame {
+          position: absolute;
+          overflow: hidden;
+          font-size: 14px;      
+          top: 10px;
+          left: 10px;
+          width: 650px;
+          height: 210px;
+          background-color: lightsteelblue;
+        }
+
+        #instanceFrame {
+          position: absolute;
+          overflow: hidden;
+          font-size: 14px;      
+          top: 230px;
+          left: 10px;
+          width: 650px;
+          height: 210px;
+          background-color: lightsteelblue;
+        }
+
+        #program {
+          position: absolute;
+          overflow: hidden;
+          overflow-X: scroll;
+          overflow-Y: scroll;
+          font-size: 14px;          
+          top: 25px;
+          left: 10px;
+          width: 220px;
+          height: 180px;
+        }
+
+        #instance {
+          position: absolute;
+          overflow: hidden;
+          overflow-X: scroll;
+          overflow-Y: scroll;
+          font-size: 14px;          
+          top: 25px;
+          left: 10px;
+          width: 220px;
+          height: 180px;
+        }
+
+        #programControls {
+          position: absolute;
+          overflow: hidden;
+          overflow-X: scroll;
+          overflow-Y: scroll;
+          top: 30px;
+          left: 235px;
+          width: 200;
+          height: 200px;
+        }
+
+        #instanceControls {
+          position: absolute;
+          overflow: hidden;
+          overflow-X: scroll;
+          overflow-Y: scroll;
+          top: 30px;
+          left: 235px;
+          width: 200;
+          height: 200px;
+        }
+
+        .menuLabel {
+          width: 60px;        
+          font-family: Helvetica;  
+          font-size: 14px;
+        }
+
+        #title {
+          width: 170px;  
+          font-weight: bold;
+          font-family: Helvetica;  
+          font-size: 14px;
+        }
+
+        .menuBarItemREPL {
+          top: 3px;
+          position: relative;
+          width: 120px;            
+          font-weight: bold;
+          font-family: Helvetica; 
+          font-size: 14px;
+          background-color: gray;
+          font-weight: bold;
+          font-family: Helvetica; 
+          font-size: 16px;
+          text-align: center;
+          color: white;            
+        }
+
+        .menuBarItemTinyLiveSML {
+          top: 3px;          
+          position: relative;
+          width: 140px;            
+          font-weight: bold;
+          font-family: Helvetica; 
+          font-size: 14px;
+          background-color: steelblue;
+          font-weight: bold;
+          font-family: Helvetica; 
+          font-size: 16px;
+          text-align: center;
+          color: white;            
+        }        
+
+        .menuHead {
+          width: 60px;  
+          font-weight: bold;
+          font-family: Helvetica;  
+          font-size: 14px;
+        }
+
+        .menuTitleHead {       
+          width: 200px;  
+          font-weight: bold;
+          font-family: Helvetica; 
+          font-size: 14px;
+        } 
+
+        .tabTitleHead {
+          width: 400px;  
+          font-weight: bold;
+          font-family: Helvetica; 
+          font-size: 14px;
+          padding: 10px;
+        }  
+
+        .menuInput {
+          width: 60px;        
+        }
+
+        .menuItem {
+          height: 24px;
+          display: flex;
+          align-items: center;	
+          vertical-align: middle;
+        }
+
+        .menuButton {
+          font-size: 14px;
+        }
+
+      </style>
+    </head>
+    <body>
+      <div id="titlebar">
+        <div class="menuItem">
+          <div class="menuBarItemREPL" onclick="showREPL()">Delta REPL</div>
+          <div class="menuBarItemTinyLiveSML" onclick="showTinyLiveSML()">TinyLiveSML</div>
+        </div>
+      </div>
+
+      <div id="REPL">
+        <div id="terminal"></div>
+      </div>
+
+      <div id="TinyLiveSML">
+
+        <div id="programFrame">
+          <div class="menuItem">
+            <div class="tabTitleHead">Program (source code)</div>        
+          </div>
+          <div id="program"></div>
+          <div id="programControls">    
+            <div class="menuItem">
+              <div class="menuHead">Object</div>
+              <div class="menuHead">Action</div>
+              <div class="menuHead">Inverse</div>
+              <div class="menuHead">Params</div>
+            </div>
+            <div class="menuItem">
+              <div class="menuLabel">Machine</div>
+              <div class="menuInput"><input type="button" value="Create" id="MachineCreate" class="menuButton" onclick="executeMachCreate()"></input></div>
+              <div class="menuInput"><input type="button" value="Delete" id="MachineDelete" class="menuButton" onclick="executeMachDelete()"></input></div>
+              <div class="menuInput"><input type="text" id="MachID" size="6"></input></div>					
+              <div class="menuInput"><input type="text" id="MachName" size="6"></input></div>
+            </div>
+            <div class="menuItem">
+              <div class="menuLabel">State</div>
+              <div class="menuInput"><input type="button" value="Create" id="StateCreate" class="menuButton" onclick="executeStateCreate()"></input></div>
+              <div class="menuInput"><input type="button" value="Delete" id="StateDelete" class="menuButton" onclick="executeStateDelete()"></input></div>          
+              <div class="menuInput"><input type="text" id="StateID" size="6"></input></div>
+              <div class="menuInput"><input type="text" id="StateName" size="6"></input></div>
+              <div class="menuInput"><input type="text" id="StateMachID" size="6"></input></div>
+            </div>
+            <div class="menuItem">
+              <div class="menuLabel">Trans</div>
+              <div class="menuInput"><input type="button" value="Create" id="TransCreate" class="menuButton" onclick="executeTransCreate()"></input></div>
+              <div class="menuInput"><input type="button" value="Delete" id="TransDelete" class="menuButton" onclick="executeTransDelete()"></input></div>
+              <div class="menuInput"><input type="text" id="TransID" size="6"></input></div>
+              <div class="menuInput"><input type="text" id="TransSrc" size="6"></input></div>
+              <div class="menuInput"><input type="text" id="TransAct" size="6"></input></div>
+              <div class="menuInput"><input type="text" id="TransTgt" size="6"></input></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="instanceFrame">
+          <div class="menuItem">
+            <div class="tabTitleHead">Running program (run-time state)</div>        
+          </div>
+          <div id="instance"></div>        
+          <div id="instanceControls">   
+            <div class="menuItem">
+              <div class="menuHead">Object</div>
+              <div class="menuHead">Action</div>
+              <div class="menuHead">Inverse</div>
+              <div class="menuHead">Params</div>
+            </div>
+            <div class="menuItem">
+              <div class="menuLabel">MachInst</div>
+              <div class="menuInput"><input type="button" value="Create" id="MachInstCreate" class="menuButton" onclick="executeMachInstCreate()"></input></div>
+              <div class="menuInput"><input type="button" value="Delete" id="MachInstsDelete" class="menuButton" onclick="executeMachInstDelete()"></input></div>
+              <div class="menuInput"><input type="text" id="MachInstID" size="6"></input></div>
+              <div class="menuInput"><input type="text" id="MachInstMachID" size="6"></input></div>
+            </div>
+            <div class="menuItem">
+              <div class="menuLabel">MachInst</div>
+              <div class="menuInput"><input type="button" value="Trigger" id="MachInstTrigger" class="menuButton" onclick="executeMachInstTrigger()"></input></div>          
+              <div class="menuInput"></div>
+              <div class="menuInput"><input type="text" id="MachInstTriggerID" size="6"></input></div>
+              <div class="menuInput"><input type="text" id="MachInstTriggerAct" size="6"></input></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+/******************************************************************************
+ * Copyright (c) 2022, Centrum Wiskunde & Informatica (CWI)
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of the copyright holder nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Contributors:
+ *   * Riemer van Rozen - rozen@cwi.nl - CWI
+ ******************************************************************************/
+        var title = document.getElementById('title');
+        var program = document.getElementById('program');
+        var terminal = document.getElementById('terminal');
+        var instance = document.getElementById('instance');
+        var programControls = document.getElementById('programControls');
+        var instanceControls = document.getElementById('instanceControls');
+        var REPL = document.getElementById('REPL');
+        var TinyLiveSML = document.getElementById('TinyLiveSML');
+
+        var term = new Terminal();
+        const url = "http://127.0.0.1:8000";
+        const commandUrl = url + "/command"
+        const dataUrl = url + "/data"
+
+        term.open(document.getElementById('terminal'));
+        term.write('$ ');
+        var line = "";
+        setInterval(getData, 100);
+
+        var programTerminal = new Terminal();
+        programTerminal.open(document.getElementById('program'));
+
+        var instanceTerminal = new Terminal();
+        instanceTerminal.open(document.getElementById('instance'));
+  
+        term.onKey(key => {
+          const char = key.domEvent.key;
+          if (char === "Enter") {
+            term.write("\r\n");
+            term.write('$ ');
+            sendLine(line);
+            line = "";
+          }
+          else if(char == "Backspace") {
+            var len = line.length;
+            if(len > 0){
+              line = line.substr(0, len -1);
+              term.write('\b');
+              term.write(' ');
+              term.write('\b');
+            }
+          } else {
+            line += char;
+            term.write(char);
+          }
+        });
+
+        var receiveText = function(text)
+        {
+          term.write('\b');
+          term.write('\b');
+          term.write(text);
+          term.write('\r\n');
+          term.write('$ ');
+        }
+
+        var receiveError =  function(text)
+        {
+          term.write('\b');
+          term.write('\b');
+          term.write('\u001b[31m');
+          term.write(text);
+          term.write('\u001b[0m');
+          term.write('\r\n');
+          term.write('$ ');
+        }
+
+        var receiveInstance = function(code)
+        {
+          instanceTerminal.clear();
+          instanceTerminal.write(code);
+          instanceTerminal.write('\r\n');
+        }
+
+        var receiveProgram = function(code)
+        {
+          programTerminal.clear();
+          programTerminal.write(code);
+          programTerminal.write('\r\n');
+        }
+
+        var receiveData = function(message)
+        {
+          var obj = $.parseJSON(message);
+          if(obj.text){
+            receiveText(obj.text);
+          } else if(obj.error){
+            receiveError(obj.error);
+          } else if(obj.program){
+            receiveProgram(obj.program);
+          } else if(obj.instance){
+            receiveInstance(obj.instance);
+          }
+          updateCall();
+        }
+
+        var sendLine = function(line)
+        {
+          $.post(commandUrl, line);
+        }
+
+        var getData = function()
+        {
+          $.post(dataUrl, "", receiveData);
+        }
+
+        function updateCall(){
+          setTimeout(function(){getData()}, 10);
+        }
+
+        $(document).ready(function() {
+          getData();
+        });
+
+        function showREPL()
+        {
+          REPL.style.visibility = "visible";
+          TinyLiveSML.style.visibility = "hidden";
+        }
+
+        function showTinyLiveSML()
+        {
+          REPL.style.visibility = "hidden";
+          TinyLiveSML.style.visibility = "visible";
+        }
+
+        function executeCommand(command)
+        {
+          var cmd = command + ";";
+          term.write(cmd);
+          term.write('\r\n');
+          term.write('$ ');
+          sendLine(cmd);
+        }
+
+        function executeMachCreate()
+        {
+          var m = document.getElementById('MachID').value;
+          var name = document.getElementById('MachName').value;
+          //var declare = "var "+ m;
+          var command = "Delta.TinyLiveSML.Mach.Create("+m+", \""+name+"\")";
+          //executeCommand(declare);
+          executeCommand(command);
+          executeCommand("m");
+          executeCommand("mi");
+        }
+
+        function executeMachDelete(m, name)
+        {
+          var m = document.getElementById('MachID').value;
+          var name = document.getElementById('MachName').value;
+          var command = "Delta.TinyLiveSML.Mach.Delete("+m+", \""+name+"\")";
+          //var del = "delete "+ m;
+          executeCommand(command);
+          //executeCommand(del);        
+          executeCommand("m");
+          executeCommand("mi");
+
+        }
+
+        function executeStateCreate()
+        {
+          var s = document.getElementById('StateID').value;
+          var name = document.getElementById('StateName').value;          
+          var m = document.getElementById('StateMachID').value;
+          //var declare = "var "+ s;
+          var command = "Delta.TinyLiveSML.State.Create("+s+", \""+name+"\", "+m+")";
+          //executeCommand(declare);         
+          executeCommand(command);
+          executeCommand("m");
+          executeCommand("mi");
+        }
+
+        function executeStateDelete()
+        {
+          var s = document.getElementById('StateID').value;
+          var name = document.getElementById('StateName').value;          
+          var m = document.getElementById('StateMachID').value;          
+          var command = "Delta.TinyLiveSML.State.Delete("+s+", \""+name+"\", "+m+")";
+          //var del = "delete "+ s;
+          executeCommand(command);
+          //executeCommand(del);
+          executeCommand("m");
+          executeCommand("mi");
+        }
+
+        function executeTransCreate(t, src, act, tgt)
+        {
+          var t = document.getElementById('TransID').value;
+          var src = document.getElementById('TransSrc').value;
+          var act = document.getElementById('TransAct').value;
+          var tgt = document.getElementById('TransTgt').value;          
+          //var declare = "var "+ t;
+          var command = "Delta.TinyLiveSML.Trans.Create("+t+", "+src+", \""+act+"\", "+tgt+")";
+          //executeCommand(declare);         
+          executeCommand(command);
+          executeCommand("m");
+          executeCommand("mi");
+        }
+
+        function executeTransDelete(t, src, act, tgt)
+        {
+          var t = document.getElementById('TransID').value;
+          var src = document.getElementById('TransSrc').value;
+          var act = document.getElementById('TransAct').value;
+          var tgt = document.getElementById('TransTgt').value;           
+          var command = "Delta.TinyLiveSML.Trans.Delete("+t+", "+src+", \""+act+"\", "+tgt+")";
+          //var del = "delete "+ t;
+          executeCommand(command);
+          //executeCommand(del);
+          executeCommand("m");
+          executeCommand("mi");
+        }
+
+        function executeMachInstCreate(mi, m)
+        {
+          var mi = document.getElementById('MachInstID').value;
+          var m = document.getElementById('MachInstMachID').value;                
+          //var declare = "var "+ mi;
+          var command = "Delta.TinyLiveSML.MachInst.Create("+mi+", "+m+")";
+          //executeCommand(declare);       
+          executeCommand(command);
+          executeCommand(mi);
+        }
+
+        function executeMachInstDelete(mi, m)
+        {
+          var mi = document.getElementById('MachInstID').value;
+          var m = document.getElementById('MachInstMachID').value;             
+          var command = "Delta.TinyLiveSML.MachInst.Delete("+mi+", "+m+")";
+          //var del = "delete "+ mi;
+          executeCommand(command);
+          //executeCommand(del);
+          executeCommand(mi);
+        }
+
+        function executeMachInstTrigger(mi, act)
+        {
+          var mi = document.getElementById('MachInstTriggerID').value;
+          var act = document.getElementById('MachInstTriggerAct').value;
+          command = "Delta.TinyLiveSML.MachInst.Trigger("+mi+", \""+act+"\")";
+          executeCommand(command);
+          executeCommand(mi);
+        }
+      </script>
+    </body>
+  </html>

@@ -1,0 +1,192 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProjectGuid>{B9A8D1D2-AE7F-4054-A71E-D2B9F98BBA60}</ProjectGuid>
+        <OutputType>Exe</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Delta</RootNamespace>
+        <AssemblyName>Delta</AssemblyName>
+        <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+        <FileAlignment>512</FileAlignment>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Antlr4.Runtime.Standard, Version=4.7.0.0, Culture=neutral, PublicKeyToken=e78b2c5abd1fcb3f">
+          <HintPath>lib\Antlr4.Runtime.Standard.dll</HintPath>
+        </Reference>
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Model\BaseType\EnumValue.cs" />
+        <Compile Include="Model\BaseType\Future.cs" />
+        <Compile Include="Model\BaseType\List.cs" />
+        <Compile Include="Model\BaseType\NullValue.cs" />
+        <Compile Include="Model\BaseType\Past.cs" />
+        <Compile Include="Model\BaseType\Path.cs" />
+        <Compile Include="Model\BaseType\Reference.cs" />
+        <Compile Include="Model\BaseType\Set.cs" />
+        <Compile Include="Model\BaseType\Token.cs" />
+        <Compile Include="Model\DesignSpace\Beginning.cs" />
+        <Compile Include="Model\DesignSpace\SnapShot.cs" />
+        <Compile Include="Model\DesignSpace\Trigger.cs" />
+        <Compile Include="Model\DesignSpace\Effect.cs" />
+        <Compile Include="Model\DesignSpace\Event.cs" />
+        <Compile Include="Model\DesignSpace\History.cs" />
+        <Compile Include="Model\DesignSpace\IVisitor.cs" />
+        <Compile Include="Model\DesignSpace\Juncture.cs" />
+        <Compile Include="Model\DesignSpace\Signal.cs" />
+        <Compile Include="Model\BaseOperation\FixedOperation.cs" />
+        <Compile Include="Model\BaseOperation\IReplaceable.cs" />
+        <Compile Include="Model\BaseOperation\IUpdateable.cs" />
+        <Compile Include="Model\BaseOperation\IVisitor.cs" />
+        <Compile Include="Model\BaseOperation\ListInsert.cs" />
+        <Compile Include="Model\BaseOperation\ListPop.cs" />
+        <Compile Include="Model\BaseOperation\ListPush.cs" />
+        <Compile Include="Model\BaseOperation\ListRemove.cs" />
+        <Compile Include="Model\BaseOperation\ListSet.cs" />
+        <Compile Include="Model\BaseOperation\MapAdd.cs" />
+        <Compile Include="Model\BaseOperation\MapRemove.cs" />
+        <Compile Include="Model\BaseOperation\MapSet.cs" />
+        <Compile Include="Model\BaseOperation\ObjectCreate.cs" />
+        <Compile Include="Model\BaseOperation\ObjectDelete.cs" />
+        <Compile Include="Model\BaseOperation\ObjectKey.cs" />
+        <Compile Include="Model\BaseOperation\ObjectSet.cs" />
+        <Compile Include="Model\BaseOperation\Operation.cs" />
+        <Compile Include="Model\BaseOperation\RelativeOperation.cs" />
+        <Compile Include="Model\BaseOperation\SetAdd.cs" />
+        <Compile Include="Model\BaseOperation\SetRemove.cs" />
+        <Compile Include="Model\QualifiedName\Field.cs" />
+        <Compile Include="Model\QualifiedName\IVisitor.cs" />
+        <Compile Include="Model\QualifiedName\Lookup.cs" />
+        <Compile Include="Model\QualifiedName\Name.cs" />
+        <Compile Include="Model\BaseType\BoolValue.cs" />
+        <Compile Include="Model\BaseType\ID.cs" />
+        <Compile Include="Model\BaseType\IntValue.cs" />
+        <Compile Include="Model\BaseType\IVisitor.cs" />
+        <Compile Include="Model\BaseType\Location.cs" />
+        <Compile Include="Model\BaseType\Map.cs" />
+        <Compile Include="Model\BaseType\MetaObject.cs" />
+        <Compile Include="Model\BaseType\IPatchable.cs" />
+        <Compile Include="Model\BaseType\Value.cs" />
+        <Compile Include="Model\BaseType\StringValue.cs" />
+        <Compile Include="Model\BaseType\UUID.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="REPL\Model\IVisitor.cs" />
+        <Compile Include="REPL\Operation\Assignment.cs" />
+        <Compile Include="REPL\Operation\Declaration.cs" />
+        <Compile Include="REPL\Operation\Deletion.cs" />
+        <Compile Include="REPL\Operation\Help.cs" />
+        <Compile Include="REPL\Operation\ICommand.cs" />
+        <Compile Include="REPL\Operation\Initialization.cs" />
+        <Compile Include="REPL\Operation\IVisitor.cs" />
+        <Compile Include="REPL\Operation\Print.cs" />
+        <Compile Include="REPL\Operation\Import.cs" />
+        <Compile Include="REPL\Operation\Reconstruct.cs" />
+        <Compile Include="REPL\Operation\SymbolTableCreate.cs" />
+        <Compile Include="REPL\Operation\SymbolTableDelete.cs" />
+        <Compile Include="REPL\Operation\SymbolTableRemoveVariable.cs" />
+        <Compile Include="REPL\Operation\SymbolTableStoreVariable.cs" />
+        <Compile Include="REPL\Operation\Call.cs" />
+        <Compile Include="REPL\Operation\Undo.cs" />
+        <Compile Include="REPL\Operation\VarCreate.cs" />
+        <Compile Include="REPL\Operation\VarDelete.cs" />
+        <Compile Include="REPL\Operation\VarSetValue.cs" />
+        <Compile Include="REPL\Model\SymbolTable.cs" />
+        <Compile Include="REPL\Model\Var.cs" />
+        <Compile Include="REPL\Runtime\Generator.cs" />
+        <Compile Include="REPL\Runtime\Inverter.cs" />
+        <Compile Include="REPL\Runtime\Language.cs" />
+        <Compile Include="REPL\Runtime\PostMigrator.cs" />
+        <Compile Include="REPL\Runtime\PreMigrator.cs" />
+        <Compile Include="REPL\Runtime\Parser.cs" />
+        <Compile Include="REPL\Runtime\ParserException.cs" />
+        <Compile Include="REPL\Runtime\Aligner.cs" />
+        <Compile Include="REPL\Runtime\Scanner.cs" />
+        <Compile Include="REPL\Runtime\Server.cs" />
+        <Compile Include="Runtime\Dispatcher.cs" />
+        <Compile Include="Runtime\Engine.cs" />
+        <Compile Include="Runtime\ILanguage.cs" />
+        <Compile Include="Runtime\Inverter.cs" />
+        <Compile Include="Runtime\Patcher.cs" />
+        <Compile Include="Runtime\PatchException.cs" />
+        <Compile Include="Runtime\PrettyPrinter.cs" />
+        <Compile Include="Runtime\Resolver.cs" />
+        <Compile Include="Runtime\Reverser.cs" />
+        <Compile Include="Runtime\Scheduler.cs" />
+        <Compile Include="Runtime\Serializer.cs" />
+        <Compile Include="TinyLiveSML\Model\INode.cs" />
+        <Compile Include="TinyLiveSML\Model\IVisitor.cs" />
+        <Compile Include="TinyLiveSML\Model\Mach.cs" />
+        <Compile Include="TinyLiveSML\Model\MachInst.cs" />
+        <Compile Include="TinyLiveSML\Model\State.cs" />
+        <Compile Include="TinyLiveSML\Model\StateInst.cs" />
+        <Compile Include="TinyLiveSML\Model\Trans.cs" />
+        <Compile Include="TinyLiveSML\Operation\IOperation.cs" />
+        <Compile Include="TinyLiveSML\Operation\IVisitor.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachAddMachInst.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachAddState.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachCreate.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachDelete.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachInstAddStateInst.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachInstCreate.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachInstDelete.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachInstInitialize.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachInstMissingCurrentState.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachInstQuiescence.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachInstRemoveStateInst.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachInstSetCurState.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachInstTrigger.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachRemoveMachInst.cs" />
+        <Compile Include="TinyLiveSML\Operation\MachRemoveState.cs" />
+        <Compile Include="TinyLiveSML\Operation\StateAddIn.cs" />
+        <Compile Include="TinyLiveSML\Operation\StateAddOut.cs" />
+        <Compile Include="TinyLiveSML\Operation\StateCreate.cs" />
+        <Compile Include="TinyLiveSML\Operation\StateDelete.cs" />
+        <Compile Include="TinyLiveSML\Operation\StateInstCreate.cs" />
+        <Compile Include="TinyLiveSML\Operation\StateInstDelete.cs" />
+        <Compile Include="TinyLiveSML\Operation\StateInstSetCount.cs" />
+        <Compile Include="TinyLiveSML\Operation\StateRemoveIn.cs" />
+        <Compile Include="TinyLiveSML\Operation\StateRemoveOut.cs" />
+        <Compile Include="TinyLiveSML\Operation\TransCreate.cs" />
+        <Compile Include="TinyLiveSML\Operation\TransDelete.cs" />
+        <Compile Include="TinyLiveSML\Runtime\Generator.cs" />
+        <Compile Include="TinyLiveSML\Runtime\Inverter.cs" />
+        <Compile Include="TinyLiveSML\Runtime\Language.cs" />
+        <Compile Include="TinyLiveSML\Runtime\Marshaller.cs" />
+        <Compile Include="TinyLiveSML\Runtime\PostMigrator.cs" />
+        <Compile Include="TinyLiveSML\Runtime\PreMigrator.cs" />
+    </ItemGroup>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+
+</Project>
