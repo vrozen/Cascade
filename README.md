@@ -12,7 +12,7 @@ This compiler is based on Rascal, a language workbench and meta-programming lang
 When executing user actions or coding actions, Delta generates cause-and-effect chains as transactions of edit operations in response.
 As a result, it can account for run-time eventualities such as run-time state migrations.
 
-* **DSLss** Cascade can be used to create Live Domain-Specific Languages (DSLs). Tiny Live State Machine Language (TinyLiveSML) is included as a demo. We describe a live programming scenario below. Other DSLs currently under development are the Questionnaire Language, Machinations and Behavior Trees.
+* **DSLs.** Cascade can be used to create Live Domain-Specific Languages (DSLs). Tiny Live State Machine Language (TinyLiveSML) is included as a demo. We describe a live programming scenario below. Other DSLs currently under development are the Questionnaire Language, Machinations and Behavior Trees.
 
 ## Instructions
 
