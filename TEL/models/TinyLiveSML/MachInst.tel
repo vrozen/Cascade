@@ -1,0 +1,118 @@
+/******************************************************************************
+ * Copyright (c) 2022, Centrum Wiskunde & Informatica (CWI)
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 
+ * 1. Redistributions of source code must retain the above copyright notice,
+ *    this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ *    this list of conditions and the following disclaimer in the documentation
+ *    and/or other materials provided with the distribution.
+ * 3. Neither the name of the copyright holder nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+ * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+ * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Contributors:
+ *   * Riemer van Rozen - rozen@cwi.nl - CWI
+ ******************************************************************************/
+package Delta.TinyLiveSML {
+  class MachInst {
+    ref Mach def;
+    ref StateInst cur;
+    Map<State, StateInst> sis;
+    StateInst invalid;
+  
+    effect Create(future MachInst mi, Mach def) {
+      mi = new MachInst();
+      mi.def = def;
+      mi.cur = null;
+      mi.sis = new Map<State, StateInst>();
+    }
+    post {
+      Mach.AddMachInst(mi.def, mi);  
+      foreach(State s in mi.def.states) {
+        begin StateInst si;
+        StateInst.Create(si, s);
+        AddStateInst(mi, si, s);
+      }    
+      Initialize(mi);
+    }
+  
+    inverse effect Delete(past MachInst mi, Mach def = mi.def) {
+      mi.def = null;
+      mi.cur = null;
+      delete mi.sis;
+      delete mi;
+    }
+    pre {
+      Mach.RemoveMachInst(mi.def, mi);
+      foreach(StateInst si in mi.sis.Values) {
+        RemoveStateInst(mi, si, si.def);
+        StateInst.Delete(si, si.def);
+      }
+    }
+  
+    side-effect AddStateInst(MachInst mi, StateInst si, State s) {
+      //mi.sis[si.def] = si; //not allowed!
+      mi.sis[s] = si;
+    }
+  
+    inverse side-effect RemoveStateInst(MachInst mi, StateInst si, State s) {
+      mi.sis.remove(s);
+    }
+    pre { if(si == mi.cur){ SetCurState(mi, null); } }
+      
+    trigger Initialize(MachInst mi) {
+      if(mi.sis.Count > 0 && mi.cur == null) {
+        StateInst nextState = mi.sis.Values.First();
+        SetCurState(mi, nextState);
+      }
+    }
+  
+    invertible side-effect SetCurState(MachInst mi, StateInst cur = mi.cur) {
+      mi.cur = cur;
+    }
+    post { if(mi.cur != null) { StateInst.SetCount(mi.cur, mi.cur.count + 1); } }
+
+    trigger Trigger(MachInst mi, String evt) {
+      if(mi.cur == null) {  MissingCurrentState(mi); return; }
+      foreach(Trans t in mi.cur.def.o) {
+        if(t.evt == evt) {
+          StateInst nextState = mi.sis[t.tgt];
+          SetCurState(mi, nextState);
+          return;
+        }
+      }    
+      Quiescence(mi);
+    }
+  
+    signal MissingCurrentState(MachInst mi);
+      
+    signal Quiescence(MachInst mi);
+        
+    public override String ToString() {
+      String r = "machine instance " + def.getName() + " \n";
+      foreach(StateInst si in sis.Values) {
+        r = r + "  " + si;
+        if(si == cur) { r = r + " *"; }
+        r = r + "\n";
+        foreach(Trans t in si.def.o){ r = r + "    " + t + "\n"; }
+      }
+      return r;
+    }
+  }
+}
