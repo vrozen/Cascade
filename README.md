@@ -6,8 +6,7 @@ The Cascade framework consists of a compiler and a runtime.
 Its sources are avaiable under the 3-clause BSD license.
 
 * **TEL.** Transformation Effect Language (TEL) is the working title of the Cascade compiler.
-This compiler is based on Rascal, a language work bench and meta-programming language developed at Centrum Wiskunde & Informatica.
-https://www.rascal-mpl.org
+This compiler is based on Rascal, a language workbench and meta-programming language. https://www.rascal-mpl.org
 
 * **Delta.** Detla is a virtual machine based on C# for running Cascade programs.
 When executing user actions or coding actions, Delta generates cause-and-effect chains as transactions of edit operations in response.
