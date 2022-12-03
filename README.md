@@ -2,7 +2,7 @@
 Live programming brings code to life with immediate and continuous feedback. To enjoy its benefits, programmers need powerful languages and live programming environments for understanding the effects of coding actions and developing running programs. We aim to deliver the enabling technology that powers these languages. We introduce Cascade, a meta-language and framework for expressing languages with interface- and feedback-mechanisms that drive live programming. [[paper]](https://github.com/vrozen/Cascade/blob/main/Doc/LIVE2022.pdf)
 
 ## Cascade Framework
-The Cascade framework consists of a compiler and a runtime.
+The Cascade framework consists of a compiler and a runtime that help developers in constructing language back-ends.
 Its sources are avaiable under the 3-clause BSD license.
 
 * **TEL.** Transformation Effect Language (TEL) is the working title of the Cascade compiler.
