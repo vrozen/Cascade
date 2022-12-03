@@ -39,11 +39,8 @@ For compiling the sources we have used JetBrains Rider.
 Delta's serves its web-based user interfac on http://127.0.0.1:8000
 
 ### Running TinyLiveSML
-First we create a TinyLiveSML program of a door that can open and close.
-https://github.com/vrozen/Cascade/blob/main/Doc/scenario-part1.mp4
+First we create a TinyLiveSML program of a door that can open and close. [[part1]]([https://asciinema.org/a/113463](https://github.com/vrozen/Cascade/blob/main/Doc/scenario-part1.mp4))
 
-Next, we run this program.
-https://github.com/vrozen/Cascade/blob/main/Doc/scenario-part2.mp4
+Next, we run this program. [[part1]]([https://asciinema.org/a/113463](https://github.com/vrozen/Cascade/blob/main/Doc/scenario-part2.mp4))
 
-Finally, we delete the current state and observe TinyLiveSML migrates the run-time state.
-https://github.com/vrozen/Cascade/blob/main/Doc/scenario-part3.mp4
+Finally, we delete the current state and observe TinyLiveSML migrates the run-time state. [[part3]]([https://asciinema.org/a/113463](https://github.com/vrozen/Cascade/blob/main/Doc/scenario-part3.mp4))
