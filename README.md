@@ -40,6 +40,6 @@ Delta's serves its web-based user interfac on http://127.0.0.1:8000
 
 ## Demo of TinyLiveSML
 We demo a live programming scenario with TinyLiveSML.
-* First we create a TinyLiveSML program of a door that can open and close. [[part 1]](https://github.com/vrozen/Cascade/blob/main/Doc/scenario_part1.mp4)
+* First we create a TinyLiveSML program of a door that can open and close. [[part 1]](https://github.com/vrozen/Cascade/blob/main/Doc/scenario-part1.mp4)
 * Next, we run this program. [[part 2]](https://github.com/vrozen/Cascade/blob/main/Doc/scenario_part2.mp4)
-* Finally, we delete the current state and observe TinyLiveSML migrates the run-time state. [[part 3]](https://github.com/vrozen/Cascade/blob/main/Doc/scenario_part3.mp4)
+* Finally, we delete the current state and observe TinyLiveSML migrates the run-time state. [[part 3]](https://github.com/vrozen/Cascade/blob/main/Doc/scenario-part3.mp4)
